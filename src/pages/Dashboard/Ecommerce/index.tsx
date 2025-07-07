@@ -1,18 +1,16 @@
-import React from 'react'
-import { Container } from 'react-bootstrap';
+import React from "react";
+import { Container } from "react-bootstrap";
 
 const Ecommerce = () => {
-    document.title = "Dashboard | Steex Admin & Dashboard Template";
+  document.title = "Dashboard | Sivex";
 
-    return (
-        <React.Fragment>
-            <div className="page-content">
-                <Container fluid>
-
-                </Container>
-            </div>
-        </React.Fragment>
-    )
-}
+  return (
+    <React.Fragment>
+      <div className="page-content">
+        <Container fluid></Container>
+      </div>
+    </React.Fragment>
+  );
+};
 
 export default Ecommerce;
