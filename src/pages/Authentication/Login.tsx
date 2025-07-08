@@ -87,10 +87,7 @@ const Signin = (props: any) => {
                 <Col xxl="6" className="mx-auto">
                     <Card className="mb-0 border-0 shadow-none mb-0">
                         <Card.Body className="p-sm-5 m-lg-4">
-                            <div className="text-center mt-5">
-                                <h5 className="fs-3xl">Welcome Back</h5>
-                                <p className="text-muted">Sign in to continue to Steex.</p>
-                            </div>
+                            
                             <div className="p-2 mt-5">
                                 {error && error ? (<Alert variant="danger"> {error} </Alert>) : null}
 
