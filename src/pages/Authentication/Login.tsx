@@ -68,11 +68,6 @@ const Signin = (props: any) => {
         dispatch(socialLogin(type, props.router.navigate));
     };
 
-    //for facebook and google authentication
-    const socialResponse = (type: any) => {
-        signIn(type);
-    };
-
     useEffect(() => {
         if (errorMsg) {
             setTimeout(() => {
@@ -87,7 +82,6 @@ const Signin = (props: any) => {
                 <Col xxl="6" className="mx-auto">
                     <Card className="mb-0 border-0 shadow-none mb-0">
                         <Card.Body className="p-sm-5 m-lg-4">
-                            
                             <div className="p-2 mt-5">
                                 {error && error ? (<Alert variant="danger"> {error} </Alert>) : null}
 
@@ -146,12 +140,6 @@ const Signin = (props: any) => {
                                     <div className="mt-4 pt-2 text-center">
                                         <div className="signin-other-title position-relative">
                                             <h5 className="fs-sm mb-4 title">Sign In with</h5>
-                                        </div>
-                                        <div className="pt-2 hstack gap-2 justify-content-center">
-                                            <button type="button" className="btn btn-subtle-primary btn-icon"  onClick={e => { e.preventDefault(); socialResponse("facebook"); }}><i className="ri-facebook-fill fs-lg"></i></button>
-                                            <button type="button" className="btn btn-subtle-danger btn-icon" onClick={e => { e.preventDefault(); socialResponse("google"); }}><i className="ri-google-fill fs-lg"></i></button>
-                                            <button type="button" className="btn btn-subtle-dark btn-icon"><i className="ri-github-fill fs-lg"></i></button>
-                                            <button type="button" className="btn btn-subtle-info btn-icon"><i className="ri-twitter-fill fs-lg"></i></button>
                                         </div>
                                     </div>
 
