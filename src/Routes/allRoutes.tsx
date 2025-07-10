@@ -6,13 +6,16 @@ import Ecommerce from "pages/Dashboard/Ecommerce";
 
 // Crear proyectos
 import ProjectsForm from "pages/Project/Projects";
+import AddStudent   from "pages/Student/AddStudent";
 
 // Listados
 import ManageExtensionista from "pages/Project/ManageExtensionista";
 import ManageVoluntariado  from "pages/Project/ManageVoluntariado";
+import ManageStudents   from "pages/Student/ManageStudents";
 
 // Edición
 import EditProject from "pages/Project/EditProject";
+import EditStudent      from "pages/Student/EditStudent";
 
 // Authentication
 import Login         from "pages/Authentication/Login";
@@ -20,6 +23,7 @@ import Logout        from "pages/Authentication/Logout";
 import Register      from "pages/Authentication/Register";
 import ForgotPassword from "pages/Authentication/ForgotPassword";
 import UserProfile   from "pages/Authentication/user-profile";
+
 
 const authProtectedRoutes = [
   // 1) Dashboard
@@ -50,6 +54,11 @@ const authProtectedRoutes = [
   // 6) Redirecciones
   { path: "/", exact: true, component: <Navigate to="/dashboard" /> },
   { path: "*", component: <Navigate to="/dashboard" /> },
+
+  // Estudiantes
+  { path: "/agregar-estudiante",    component: <AddStudent /> },
+  { path: "/gestionar-estudiantes", component: <ManageStudents /> },
+  { path: "/editar-estudiante/:id", component: <EditStudent /> },
 ];
 
 const publicRoutes = [

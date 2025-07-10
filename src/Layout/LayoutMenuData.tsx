@@ -75,7 +75,21 @@ const Navdata = () => {
       icon: "ri-hand-heart-line",
       link: "/gestionar-proyectos/voluntariado",
     },
-  ];
+  {
+  isHeader: true,
+  label: "Registros Académicos",
+ },
+ {
+  label: "Agregar Estudiante",
+  icon: "ri-user-add-line",
+  link: "/agregar-estudiante",
+ },
+ {
+  label: "Gestión de Estudiantes",
+  icon: "ri-user-line",
+  link: "/gestionar-estudiantes",
+ },
+];
 
   return {
     props: {
