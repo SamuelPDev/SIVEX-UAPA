@@ -4,60 +4,59 @@ import { Navigate } from "react-router-dom";
 // Dashboard
 import Ecommerce from "pages/Dashboard/Ecommerce";
 
-// Proyectos
-import ProjectsForm from "pages/Project/Projects";                   // Formulario único
-import ManageExtensionista from "pages/Project/ManageExtensionnista"; // Gestión Extensionista
-import ManageVoluntariado from "pages/Project/ManageVoluntariado";   // Gestión Voluntariado
+// Crear proyectos
+import ProjectsForm from "pages/Project/Projects";
+
+// Listados
+import ManageExtensionista from "pages/Project/ManageExtensionista";
+import ManageVoluntariado  from "pages/Project/ManageVoluntariado";
+
+// Edición
+import EditProject from "pages/Project/EditProject";
 
 // Authentication
-import Login from "pages/Authentication/Login";
-import Logout from "pages/Authentication/Logout";
-import Register from "pages/Authentication/Register";
+import Login         from "pages/Authentication/Login";
+import Logout        from "pages/Authentication/Logout";
+import Register      from "pages/Authentication/Register";
 import ForgotPassword from "pages/Authentication/ForgotPassword";
-import UserProfile from "pages/Authentication/user-profile";
+import UserProfile   from "pages/Authentication/user-profile";
 
 const authProtectedRoutes = [
-  // 1. Dashboard
+  // 1) Dashboard
   { path: "/dashboard", component: <Ecommerce /> },
 
-  // 2. Redirección raíz a Dashboard
-  { path: "/", exact: true, component: <Navigate to="/dashboard" /> },
+  // 2) Formulario único para agregar
+  { path: "/agregar-proyectos", component: <ProjectsForm /> },
 
-  // 3. Agregar proyectos (formulario único)
-  {
-    path: "/agregar-proyectos",
-    name: "AgregarProyectos",
-    component: <ProjectsForm />,
-  },
-
-  // 4. Gestionar proyectos por categoría
+  // 3) Listados por categoría
   {
     path: "/gestionar-proyectos/extensionista",
-    name: "GestionarExtensionista",
     component: <ManageExtensionista />,
   },
   {
     path: "/gestionar-proyectos/voluntariado",
-    name: "GestionarVoluntariado",
     component: <ManageVoluntariado />,
   },
 
-  // 5. Perfil de usuario
+  // 4) Ruta de edición (¡debe ir antes del "*")
   {
-    path: "/user-profile",
-    name: "UserProfile",
-    component: <UserProfile />,
+    path: "/editar-proyectos/:category/:id",
+    component: <EditProject />,
   },
 
-  // 6. Catch-all: cualquier otra ruta vuelve al Dashboard
+  // 5) Perfil
+  { path: "/user-profile", component: <UserProfile /> },
+
+  // 6) Redirecciones
+  { path: "/", exact: true, component: <Navigate to="/dashboard" /> },
   { path: "*", component: <Navigate to="/dashboard" /> },
 ];
 
 const publicRoutes = [
-  { path: "/login", name: "Login", component: <Login /> },
-  { path: "/logout", name: "Logout", component: <Logout /> },
-  { path: "/register", name: "Register", component: <Register /> },
-  { path: "/forgot-password", name: "ForgotPassword", component: <ForgotPassword /> },
+  { path: "/login",           component: <Login /> },
+  { path: "/logout",          component: <Logout /> },
+  { path: "/register",        component: <Register /> },
+  { path: "/forgot-password", component: <ForgotPassword /> },
 ];
 
 export { authProtectedRoutes, publicRoutes };

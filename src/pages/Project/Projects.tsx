@@ -11,13 +11,22 @@ import {
   Input,
   Button,
 } from "reactstrap";
+import { useNavigate } from "react-router-dom";
+import {
+  createProyecto,
+  ProyectoData,
+} from "services/proyectosService";
 
-const Projects = () => {
-  const [formData, setFormData] = useState({
+// Nuevo proyecto no necesita id
+type NewProyecto = Omit<ProyectoData, "id">;
+
+const Projects: React.FC = () => {
+  const [formData, setFormData] = useState<NewProyecto>({
     title: "",
     category: "",
     description: "",
   });
+  const navigate = useNavigate();
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -30,10 +39,22 @@ const Projects = () => {
     setFormData({ title: "", category: "", description: "" });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Proyecto enviado:", formData);
-    // Aquí irá tu conexión con el backend (axios/fetch)
+    try {
+      // Guarda el proyecto
+      await createProyecto(formData);
+
+      // Redirige a la gestión según categoría
+      if (formData.category === "Extensionista") {
+        navigate("/gestionar-proyectos/extensionista");
+      } else {
+        navigate("/gestionar-proyectos/voluntariado");
+      }
+    } catch (err) {
+      console.error("Error guardando proyecto:", err);
+      alert("No se pudo guardar el proyecto. Revisa la consola.");
+    }
   };
 
   return (
@@ -41,14 +62,15 @@ const Projects = () => {
       <Container fluid>
         <Row>
           <Col lg={12}>
-            <h5 className="mb-4">AGREGAR PROYECTO EXTENSIONISTA</h5>
+            <h5 className="mb-4">AGREGAR PROYECTO</h5>
             <Card>
               <CardBody>
                 <h6 className="mb-3 text-muted">Información del proyecto</h6>
                 <Form onSubmit={handleSubmit}>
                   <FormGroup>
                     <Label htmlFor="title">
-                      Título del proyecto<span className="text-danger">*</span>
+                      Título del proyecto
+                      <span className="text-danger">*</span>
                     </Label>
                     <Input
                       type="text"
@@ -63,7 +85,8 @@ const Projects = () => {
 
                   <FormGroup>
                     <Label htmlFor="category">
-                      Tipo de proyecto<span className="text-danger">*</span>
+                      Tipo de proyecto
+                      <span className="text-danger">*</span>
                     </Label>
                     <Input
                       type="select"
@@ -81,13 +104,14 @@ const Projects = () => {
 
                   <FormGroup>
                     <Label htmlFor="description">
-                      Descripción<span className="text-danger">*</span>
+                      Descripción
+                      <span className="text-danger">*</span>
                     </Label>
                     <Input
                       type="textarea"
                       name="description"
                       id="description"
-                      rows="5"
+                      rows={5}
                       value={formData.description}
                       onChange={handleChange}
                       placeholder="Descripción del proyecto"
