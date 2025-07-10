@@ -51,42 +51,36 @@ const Navdata = () => {
   }, []);
 
   const menuItems: MenuItem[] = [
+    // 1) Formulario único de agregar proyectos
     {
-      label: "Menu",
+      label: "Agregar proyectos",
+      icon: "ri-file-add-line",
+      link: "/agregar-proyectos",
+    },
+
+    // 2) Encabezado para la sección de gestión
+    {
       isHeader: true,
+      label: "Gestionar proyectos",
+    },
+
+    // 3) Gestión individual por categoría
+    {
+      label: "Extensionista",
+      icon: "ri-briefcase-line",
+      link: "/gestionar-proyectos/extensionista",
     },
     {
-      id: "dashboard",
-      label: "Tipos de proyectos",
-      icon: "ph-book-open",
-      link: "/#",
-      click: (e: ClickEvent) => {
-        e.preventDefault();
-        toggleDashboard();
-        updateIconSidebar(e);
-      },
-      stateVariables: isDashboardOpen,
-      subItems: [
-        {
-          id: "extensionista",
-          label: "Extensionista",
-          link: "#",
-          parentId: "dashboard",
-        },
-        {
-          id: "voluntariado",
-          label: "Voluntariado",
-          link: "#",
-          parentId: "dashboard",
-        },
-      ],
+      label: "Voluntariado",
+      icon: "ri-hand-heart-line",
+      link: "/gestionar-proyectos/voluntariado",
     },
   ];
 
   return {
     props: {
-      children: menuItems
-    }
+      children: menuItems,
+    },
   };
 };
 

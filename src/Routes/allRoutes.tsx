@@ -1,6 +1,13 @@
+import React from "react";
 import { Navigate } from "react-router-dom";
-// dashboard
+
+// Dashboard
 import Ecommerce from "pages/Dashboard/Ecommerce";
+
+// Proyectos
+import ProjectsForm from "pages/Project/Projects";                   // Formulario único
+import ManageExtensionista from "pages/Project/ManageExtensionnista"; // Gestión Extensionista
+import ManageVoluntariado from "pages/Project/ManageVoluntariado";   // Gestión Voluntariado
 
 // Authentication
 import Login from "pages/Authentication/Login";
@@ -10,24 +17,47 @@ import ForgotPassword from "pages/Authentication/ForgotPassword";
 import UserProfile from "pages/Authentication/user-profile";
 
 const authProtectedRoutes = [
-    // Dashboard
-    { path: "/dashboard", component: <Ecommerce /> },
-    { path: "/", exact: true, component: <Navigate to="/dashboard" /> },
-    { path: "*", component: <Navigate to="/dashboard" /> },
+  // 1. Dashboard
+  { path: "/dashboard", component: <Ecommerce /> },
 
-    //user prpfile
-    { path: "/user-profile", name: "UserProfile", component: <UserProfile /> },
-    // this route should be at the end of all other routes
-    // eslint-disable-next-line react/display-name
-    { path: "/", exact: true, name: "Navigate", component: <Navigate to="/dashboard" /> },
+  // 2. Redirección raíz a Dashboard
+  { path: "/", exact: true, component: <Navigate to="/dashboard" /> },
+
+  // 3. Agregar proyectos (formulario único)
+  {
+    path: "/agregar-proyectos",
+    name: "AgregarProyectos",
+    component: <ProjectsForm />,
+  },
+
+  // 4. Gestionar proyectos por categoría
+  {
+    path: "/gestionar-proyectos/extensionista",
+    name: "GestionarExtensionista",
+    component: <ManageExtensionista />,
+  },
+  {
+    path: "/gestionar-proyectos/voluntariado",
+    name: "GestionarVoluntariado",
+    component: <ManageVoluntariado />,
+  },
+
+  // 5. Perfil de usuario
+  {
+    path: "/user-profile",
+    name: "UserProfile",
+    component: <UserProfile />,
+  },
+
+  // 6. Catch-all: cualquier otra ruta vuelve al Dashboard
+  { path: "*", component: <Navigate to="/dashboard" /> },
 ];
 
 const publicRoutes = [
-    // Authentication
-    { path: "/login", name: "Login", component: <Login /> },
-    { path: "/logout", name: "Logout", component: <Logout /> },
-    { path: "/register", name: "Register", component: <Register /> },
-    { path: "/forgot-password", name: "ForgotPassword", component: <ForgotPassword /> },
+  { path: "/login", name: "Login", component: <Login /> },
+  { path: "/logout", name: "Logout", component: <Logout /> },
+  { path: "/register", name: "Register", component: <Register /> },
+  { path: "/forgot-password", name: "ForgotPassword", component: <ForgotPassword /> },
 ];
 
 export { authProtectedRoutes, publicRoutes };
