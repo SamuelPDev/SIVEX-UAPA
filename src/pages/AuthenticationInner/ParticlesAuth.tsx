@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Row, Col, Card, Image } from "react-bootstrap";
 
-import teamImage from "assets/images/auth/team-collaboration.png";
+import teamImage from "assets/images/auth/team-collaboration.jpg";
 import withRouter from "Common/withRouter";
 
 const ParticlesAuth = ({ children }: any) => {
