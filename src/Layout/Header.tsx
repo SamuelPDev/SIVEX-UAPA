@@ -1,6 +1,6 @@
 import React from "react";
 
-import SearchOption from "../Common/SearchOption";
+// import SearchOption from "../Common/SearchOption";
 // import BrowseAppsDropdown from "../Common/BrowseAppsDropdown";
 // import MyCartDropdown from "../Common/MyCartDropdown";
 // import FullScreenDropdown from "../Common/FullScreenDropdown";
@@ -98,7 +98,7 @@ const Header = () => {
               </Button>
 
               {/* SearchModal */}
-              <SearchOption />
+              {/* <SearchOption /> */}
             </div>
 
             <div className="d-flex align-items-center">

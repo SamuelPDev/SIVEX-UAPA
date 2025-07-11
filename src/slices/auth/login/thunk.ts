@@ -5,30 +5,63 @@ import {
   postJwtLogin,
 } from "../../../helpers/fakebackend_helper";
 
-import { loginSuccess, logoutUserSuccess, apiError, reset_login_flag } from './reducer';
+import {
+  loginSuccess,
+  logoutUserSuccess,
+  apiError,
+  reset_login_flag,
+} from "./reducer";
+
+// Import our mock auth service
+import { mockAuthService } from "../../../services/mockAuthService";
 
 export const loginUser = (user: any, history: any) => async (dispatch: any) => {
   try {
     let response;
+    let data;
+
+    // Check if we're using our mock localStorage auth
+    if (
+      process.env.REACT_APP_DEFAULTAUTH === "mock" ||
+      process.env.REACT_APP_DEFAULTAUTH === "fake" ||
+      !process.env.REACT_APP_DEFAULTAUTH
+    ) {
+      // Use our localStorage mock service
+      try {
+        response = await mockAuthService.login({
+          email: user.email,
+          password: user.password,
+        });
+
+        if (response.success) {
+          data = response.user;
+          localStorage.setItem("authUser", JSON.stringify(data));
+          dispatch(loginSuccess(data));
+          history("/dashboard");
+        }
+      } catch (error: any) {
+        dispatch(apiError({ data: error.message || "Invalid credentials" }));
+      }
+      return;
+    }
+
+    // Original logic for other auth methods
     if (process.env.REACT_APP_DEFAULTAUTH === "firebase") {
       let fireBaseBackend = getFirebaseBackend();
-      response = fireBaseBackend.loginUser(
-        user.email,
-        user.password
-      );
+      response = fireBaseBackend.loginUser(user.email, user.password);
     } else if (process.env.REACT_APP_DEFAULTAUTH === "jwt") {
       response = postJwtLogin({
         email: user.email,
-        password: user.password
+        password: user.password,
       });
-    } else if (process.env.REACT_APP_DEFAULTAUTH) {
+    } else if (process.env.REACT_APP_DEFAULTAUTH === "fake") {
       response = postFakeLogin({
         email: user.email,
         password: user.password,
       });
     }
 
-    var data = await response;
+    data = await response;
 
     if (data) {
       localStorage.setItem("authUser", JSON.stringify(data));
@@ -36,7 +69,10 @@ export const loginUser = (user: any, history: any) => async (dispatch: any) => {
         var finallogin: any = JSON.stringify(data);
         finallogin = JSON.parse(finallogin);
         data = finallogin.data;
-        if ((finallogin.status === "success") || (finallogin.username && finallogin.password)) {
+        if (
+          finallogin.status === "success" ||
+          (finallogin.username && finallogin.password)
+        ) {
           dispatch(loginSuccess(data));
           history("/dashboard");
         } else {
@@ -55,7 +91,10 @@ export const loginUser = (user: any, history: any) => async (dispatch: any) => {
 
 export const logoutUser = () => async (dispatch: any) => {
   try {
+    // Clear our localStorage data
+    mockAuthService.logout();
     localStorage.removeItem("authUser");
+
     if (process.env.REACT_APP_DEFAULTAUTH === "firebase") {
       let fireBaseBackend = getFirebaseBackend();
       const response = fireBaseBackend.logout;
@@ -63,35 +102,31 @@ export const logoutUser = () => async (dispatch: any) => {
     } else {
       dispatch(logoutUserSuccess(true));
     }
-
   } catch (error) {
     dispatch(apiError(error));
   }
 };
 
-export const socialLogin = (type: any, history: any) => async (dispatch: any) => {
-  try {
-    let response;
+export const socialLogin =
+  (type: any, history: any) => async (dispatch: any) => {
+    try {
+      let response;
 
-    if (process.env.REACT_APP_DEFAULTAUTH === "firebase") {
-      const fireBaseBackend = getFirebaseBackend();
-      response = fireBaseBackend.socialLoginUser(type);
+      if (process.env.REACT_APP_DEFAULTAUTH === "firebase") {
+        const fireBaseBackend = getFirebaseBackend();
+        response = fireBaseBackend.socialLoginUser(type);
+      }
+
+      const socialdata = await response;
+      if (socialdata) {
+        localStorage.setItem("authUser", JSON.stringify(socialdata));
+        dispatch(loginSuccess(socialdata));
+        history("/dashboard");
+      }
+    } catch (error) {
+      dispatch(apiError(error));
     }
-    //  else {
-    //   response = postSocialLogin(data);
-    // }
-
-    const socialdata = await response;
-    if (socialdata) {
-      localStorage.setItem("authUser", JSON.stringify(socialdata));
-      dispatch(loginSuccess(socialdata));
-      history('/dashboard');
-    }
-
-  } catch (error) {
-    dispatch(apiError(error));
-  }
-};
+  };
 
 export const resetLoginFlag = () => async (dispatch: any) => {
   try {
