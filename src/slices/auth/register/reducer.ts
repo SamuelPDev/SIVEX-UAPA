@@ -7,7 +7,7 @@ export const initialState = {
   user: null,
   success: false,
   error: false,
-  isUserLogout: true
+  isUserLogout: true,
 };
 
 const registerSlice = createSlice({
@@ -19,30 +19,48 @@ const registerSlice = createSlice({
       state.loading = false;
       state.success = true;
       state.registrationError = null;
+      state.error = false;
+      console.log("REDUCER: New state", {
+        success: state.success,
+        loading: state.loading,
+      });
     },
     registerUserFailed(state, action) {
       state.user = null;
       state.loading = false;
-      state.registrationError = action.payload;
+      state.registrationError =
+        action.payload.message || action.payload || "Registration failed";
       state.error = true;
+      state.success = false;
+    },
+    registerUserPending(state) {
+      state.loading = true;
+      state.error = false;
+      state.success = false;
+      state.registrationError = null;
     },
     resetRegisterFlagChange(state) {
       state.success = false;
       state.error = false;
+      state.registrationError = null;
+      state.loading = false;
     },
-    apiErrorChange(state, action){
-      state.error = action.payload;
+    apiErrorChange(state, action) {
+      state.error = false;
       state.loading = false;
       state.isUserLogout = false;
-    }
-  }
+      state.registrationError = null;
+      state.success = false;
+    },
+  },
 });
 
 export const {
   registerUserSuccessful,
   registerUserFailed,
+  registerUserPending,
   resetRegisterFlagChange,
-  apiErrorChange
+  apiErrorChange,
 } = registerSlice.actions;
 
 export default registerSlice.reducer;

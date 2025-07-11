@@ -14,7 +14,7 @@ import withRouter from "Common/withRouter";
 //Import Breadcrumb
 import Breadcrumb from 'Common/BreadCrumb';
 
-import avatar from "../../assets/images/users/avatar-1.jpg";
+import avatar from "../../assets/images/users/user-dummy-img.jpg";
 
 // actions
 import { editProfile, resetProfileFlag } from "slices/thunk";
@@ -22,7 +22,7 @@ import { createSelector } from "reselect";
 
 const UserProfile = () => {
 
-    document.title = "User Profile | Steex Admin & Dashboard Template";
+    document.title = "User Profile | Sivex";
 
     const dispatch = useDispatch<any>();
 
@@ -89,7 +89,7 @@ const UserProfile = () => {
             <div className="page-content">
                 <Container fluid>
                     {/* Render Breadcrumb */}
-                    <Breadcrumb title="Steex" pageTitle="Accounts" />
+                    <Breadcrumb title="Sivex" pageTitle="Accounts" />
 
                     <Row>
                         <Col lg="12">
